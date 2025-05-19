@@ -65,16 +65,16 @@ def esmt (mv : MVarId) (ac : List Command) (ax : List Expr) (hs : List Expr) (ti
   | .ok pf =>
     -- 4b. Reconstruct proof.
     let goalType ← mv.getType
-    let lsorry ← mkSMT_VERIF goalType (synthetic := true)
-    mv.assign lsorry
-    return []
-    -- let (p, hp, mvs) ← reconstructProof pf fvNames₂
-    -- let mv ← mv.assert (← mkFreshId) p hp
-    -- let ⟨_, mv⟩ ← mv.intro1
-    -- let ts ← (ax ++ hs).mapM Meta.inferType
-    -- let mut gs ← mv.apply (← Meta.mkAppOptM ``Prop.implies_of_not_and #[listExpr ts q(Prop), goalType])
-    -- mv.withContext (gs.forM (·.assumption))
-    -- return mvs
+    -- let lsorry ← mkSMT_VERIF goalType (synthetic := true)
+    -- mv.assign lsorry
+    -- return []
+    let (p, hp, mvs) ← reconstructProof pf fvNames₂
+    let mv ← mv.assert (← mkFreshId) p hp
+    let ⟨_, mv⟩ ← mv.intro1
+    let ts ← (ax ++ hs).mapM Meta.inferType
+    let mut gs ← mv.apply (← Meta.mkAppOptM ``Prop.implies_of_not_and #[listExpr ts q(Prop), goalType])
+    mv.withContext (gs.forM (·.assumption))
+    return mvs
 
 -- open Lean hiding Command
 open Elab Tactic Qq

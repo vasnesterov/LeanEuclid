@@ -33,5 +33,7 @@ by
   use c
   euclid_finish
 
+#print axioms proposition_1'
+
 
 end Elements.Book1
